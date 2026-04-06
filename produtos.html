@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Produtos - Mini CRM</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini CRM - Produtos</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="layout">
@@ -21,34 +21,34 @@
     <main class="content">
       <header class="page-header">
         <h1>Produtos</h1>
-        <p>Cadastre produtos e controle valores</p>
+        <p>Cadastre, edite e exclua produtos</p>
       </header>
 
       <section class="card">
-        <h2>Cadastrar Produto</h2>
+        <h2>Cadastrar / Editar Produto</h2>
 
         <form id="formProduto">
-          <input type="hidden" id="produtoId" />
+          <input type="hidden" id="produtoId">
 
           <div class="grid-2">
             <div class="field">
               <label for="nomeProduto">Nome do produto</label>
-              <input type="text" id="nomeProduto" required />
+              <input type="text" id="nomeProduto" required>
             </div>
 
             <div class="field">
               <label for="descricaoProduto">Descrição</label>
-              <input type="text" id="descricaoProduto" />
+              <input type="text" id="descricaoProduto">
             </div>
 
             <div class="field">
               <label for="precoCusto">Preço de custo</label>
-              <input type="number" id="precoCusto" step="0.01" min="0" required />
+              <input type="number" id="precoCusto" step="0.01" min="0" required>
             </div>
 
             <div class="field">
               <label for="precoVenda">Preço de venda</label>
-              <input type="number" id="precoVenda" step="0.01" min="0" required />
+              <input type="number" id="precoVenda" step="0.01" min="0" required>
             </div>
           </div>
 
@@ -66,7 +66,7 @@
     </main>
   </div>
 
-  <script src="app.js"></script>
+  <script src="javascript/app.js"></script>
   <script>
     iniciarPaginaProdutos();
   </script>

@@ -17,6 +17,9 @@ function formatarMoeda(valor) {
   });
 }
 
+/* =========================
+   DASHBOARD
+========================= */
 function atualizarDashboard() {
   const clientes = getData("clientes");
   const produtos = getData("produtos");
@@ -41,15 +44,24 @@ function atualizarDashboard() {
 function iniciarPaginaClientes() {
   listarClientes();
 
-  document.getElementById("formCliente").addEventListener("submit", salvarCliente);
-  document.getElementById("buscaCliente").addEventListener("input", listarClientes);
+  const formCliente = document.getElementById("formCliente");
+  const buscaCliente = document.getElementById("buscaCliente");
+
+  if (formCliente) {
+    formCliente.addEventListener("submit", salvarCliente);
+  }
+
+  if (buscaCliente) {
+    buscaCliente.addEventListener("input", listarClientes);
+  }
 }
 
-function salvarCliente(e) {
-  e.preventDefault();
+function salvarCliente(event) {
+  event.preventDefault();
 
   const clientes = getData("clientes");
   const id = document.getElementById("clienteId").value;
+
   const cliente = {
     id: id ? Number(id) : gerarId(),
     nome: document.getElementById("nomeCliente").value.trim(),
@@ -114,6 +126,7 @@ function listarClientes() {
 function editarCliente(id) {
   const clientes = getData("clientes");
   const cliente = clientes.find(c => c.id === id);
+
   if (!cliente) return;
 
   document.getElementById("clienteId").value = cliente.id;
@@ -123,7 +136,10 @@ function editarCliente(id) {
   document.getElementById("categoriaCliente").value = cliente.categoria;
   document.getElementById("obsCliente").value = cliente.observacoes;
 
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 }
 
 function excluirCliente(id) {
@@ -154,11 +170,15 @@ function irParaVenda(clienteId) {
 ========================= */
 function iniciarPaginaProdutos() {
   listarProdutos();
-  document.getElementById("formProduto").addEventListener("submit", salvarProduto);
+
+  const formProduto = document.getElementById("formProduto");
+  if (formProduto) {
+    formProduto.addEventListener("submit", salvarProduto);
+  }
 }
 
-function salvarProduto(e) {
-  e.preventDefault();
+function salvarProduto(event) {
+  event.preventDefault();
 
   const produtos = getData("produtos");
   const id = document.getElementById("produtoId").value;
@@ -220,6 +240,7 @@ function listarProdutos() {
 function editarProduto(id) {
   const produtos = getData("produtos");
   const produto = produtos.find(p => p.id === id);
+
   if (!produto) return;
 
   document.getElementById("produtoId").value = produto.id;
@@ -228,7 +249,10 @@ function editarProduto(id) {
   document.getElementById("precoCusto").value = produto.precoCusto;
   document.getElementById("precoVenda").value = produto.precoVenda;
 
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 }
 
 function excluirProduto(id) {
@@ -256,7 +280,10 @@ function iniciarPaginaVendas() {
   preencherSelectProdutos();
   listarVendas();
 
-  document.getElementById("formVenda").addEventListener("submit", salvarVenda);
+  const formVenda = document.getElementById("formVenda");
+  if (formVenda) {
+    formVenda.addEventListener("submit", salvarVenda);
+  }
 
   const clienteSelecionado = localStorage.getItem("clienteSelecionadoVenda");
   if (clienteSelecionado) {
@@ -289,8 +316,8 @@ function preencherSelectProdutos() {
   });
 }
 
-function salvarVenda(e) {
-  e.preventDefault();
+function salvarVenda(event) {
+  event.preventDefault();
 
   const vendas = getData("vendas");
   const clientes = getData("clientes");
@@ -306,7 +333,7 @@ function salvarVenda(e) {
   const produto = produtos.find(p => p.id === produtoId);
 
   if (!cliente || !produto) {
-    alert("Selecione cliente e produto válidos.");
+    alert("Selecione um cliente e um produto válidos.");
     return;
   }
 
@@ -315,16 +342,16 @@ function salvarVenda(e) {
 
   const venda = {
     id: gerarId(),
-    clienteId,
+    clienteId: cliente.id,
     clienteNome: cliente.nome,
-    produtoId,
+    produtoId: produto.id,
     produtoNome: produto.nome,
-    quantidade,
+    quantidade: quantidade,
     precoUnitario: produto.precoVenda,
-    subtotal,
-    desconto,
-    total,
-    observacoes,
+    subtotal: subtotal,
+    desconto: desconto,
+    total: total,
+    observacoes: observacoes,
     data: new Date().toLocaleString("pt-BR")
   };
 
@@ -351,30 +378,27 @@ function listarVendas() {
     return;
   }
 
-  vendas
-    .slice()
-    .reverse()
-    .forEach(venda => {
-      const div = document.createElement("div");
-      div.className = "item-card";
-      div.innerHTML = `
-        <h3>Venda #${venda.id}</h3>
-        <p><strong>Cliente:</strong> ${venda.clienteNome}</p>
-        <p><strong>Produto:</strong> ${venda.produtoNome}</p>
-        <p><strong>Quantidade:</strong> ${venda.quantidade}</p>
-        <p><strong>Preço unitário:</strong> ${formatarMoeda(venda.precoUnitario)}</p>
-        <p><strong>Subtotal:</strong> ${formatarMoeda(venda.subtotal)}</p>
-        <p><strong>Desconto:</strong> ${formatarMoeda(venda.desconto)}</p>
-        <p><strong>Total:</strong> ${formatarMoeda(venda.total)}</p>
-        <p><strong>Data:</strong> ${venda.data}</p>
-        <p><strong>Observações:</strong> ${venda.observacoes || "-"}</p>
-        <div class="item-actions">
-          <button class="btn pdf" onclick="gerarPDFVenda(${venda.id})">Gerar PDF</button>
-          <button class="btn delete" onclick="excluirVenda(${venda.id})">Excluir</button>
-        </div>
-      `;
-      lista.appendChild(div);
-    });
+  vendas.slice().reverse().forEach(venda => {
+    const div = document.createElement("div");
+    div.className = "item-card";
+    div.innerHTML = `
+      <h3>Venda #${venda.id}</h3>
+      <p><strong>Cliente:</strong> ${venda.clienteNome}</p>
+      <p><strong>Produto:</strong> ${venda.produtoNome}</p>
+      <p><strong>Quantidade:</strong> ${venda.quantidade}</p>
+      <p><strong>Preço unitário:</strong> ${formatarMoeda(venda.precoUnitario)}</p>
+      <p><strong>Subtotal:</strong> ${formatarMoeda(venda.subtotal)}</p>
+      <p><strong>Desconto:</strong> ${formatarMoeda(venda.desconto)}</p>
+      <p><strong>Total:</strong> ${formatarMoeda(venda.total)}</p>
+      <p><strong>Data:</strong> ${venda.data}</p>
+      <p><strong>Observações:</strong> ${venda.observacoes || "-"}</p>
+      <div class="item-actions">
+        <button class="btn pdf" onclick="gerarPDFVenda(${venda.id})">Gerar PDF</button>
+        <button class="btn delete" onclick="excluirVenda(${venda.id})">Excluir</button>
+      </div>
+    `;
+    lista.appendChild(div);
+  });
 }
 
 function excluirVenda(id) {
@@ -389,6 +413,7 @@ function excluirVenda(id) {
 function gerarPDFVenda(id) {
   const vendas = getData("vendas");
   const venda = vendas.find(v => v.id === id);
+
   if (!venda) return;
 
   const { jsPDF } = window.jspdf;

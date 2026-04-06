@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mini CRM</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini CRM - Início</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="layout">
@@ -20,8 +20,8 @@
 
     <main class="content">
       <header class="page-header">
-        <h1>Painel</h1>
-        <p>Resumo geral do sistema</p>
+        <h1>Painel Inicial</h1>
+        <p>Resumo geral do seu mini CRM</p>
       </header>
 
       <section class="cards-grid">
@@ -31,7 +31,7 @@
         </div>
 
         <div class="card resumo">
-          <h3>Total de Produtos</h3>
+          <h3>Produtos no Estoque</h3>
           <p id="totalProdutos">0</p>
         </div>
 
@@ -47,15 +47,16 @@
       </section>
 
       <section class="card">
-        <h2>Bem-vinda ao Mini CRM</h2>
+        <h2>Bem-vinda</h2>
         <p>
-          Use o menu lateral para cadastrar clientes, produtos e criar vendas.
+          Use o menu lateral para gerenciar clientes, produtos e vendas.
+          Os dados ficam salvos no navegador com localStorage.
         </p>
       </section>
     </main>
   </div>
 
-  <script src="app.js"></script>
+  <script src="javascript/app.js"></script>
   <script>
     atualizarDashboard();
   </script>
